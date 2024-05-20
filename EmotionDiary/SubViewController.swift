@@ -34,6 +34,7 @@ class SubViewController: UIViewController {
     @IBOutlet var upSetButtonLabel: UILabel!
     var upSetButtonCount = 0
     
+    
     @IBOutlet var depressedButton: UIButton!
     @IBOutlet var depressedButtonLabel: UILabel!
     var depressedButtonCount = 0
