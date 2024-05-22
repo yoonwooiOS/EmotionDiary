@@ -48,12 +48,12 @@ class SubViewController: UIViewController {
     
     @IBOutlet var resetButton: UIButton!
     
-    var count = [0, 0, 0, 0, 0 ,0, 0, 0 ,0  ]
+    var count = [0, 0, 0, 0, 0 , 0, 0, 0 , 0]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // UI 구성
+        
         //Button Style이 Plain일 경우 contentmode가 적용되지 않음
         backgroundImageView.image = UIImage(named: "background")
         backgroundImageView.contentMode = .scaleToFill
@@ -61,37 +61,15 @@ class SubViewController: UIViewController {
         leftBarButtonItem.image = UIImage(systemName: "menucard")
         leftBarButtonItem.tintColor = .black
         
-//        happyButton.setImage(UIImage(named: "slime1"), for: .normal)
-//        happyButton.contentMode = .scaleToFill
-//        happyButtonLabel.text = "행복해 \(happyButtonCount)"
-//        happyButtonLabel.textAlignment = .center
-        // Label
-        labelUiDesign(happyButtonLabel, "행복해", 0)
-        labelUiDesign(loveButtonLabel, "사랑해", 1)
-        labelUiDesign(likeButtonLabel, "좋아해", 2)
-        labelUiDesign(embarrassmentButtonLabel,  "당황해", 3)
-        labelUiDesign(upSetButtonLabel, "속상해", 4)
-        labelUiDesign(depressedButtonLabel, "우울해", 5)
-        labelUiDesign(boredButtonLabel, "지루해", 6)
-        labelUiDesign(tiredButtonLabel, "피곤해", 7)
-        labelUiDesign(sadButtonLabel, "슬퍼", 8)
-        
-        //Button
-        buttonUiDesign(happyButton, "slime1")
-        buttonUiDesign(loveButton, "slime2")
-        buttonUiDesign(likeButton, "slime3")
-        buttonUiDesign(embarrassmentButton, "slime4")
-        buttonUiDesign(upSetButton, "slime5")
-        buttonUiDesign(depressedButton, "slime6")
-        buttonUiDesign(boredButton, "slime7")
-        buttonUiDesign(tiredButton, "slime8")
-        buttonUiDesign(sadButton, "slime9")
-        
-        
         resetButton.setTitle("감정 다시 정하기", for: .normal)
         resetButton.backgroundColor = .white
         resetButton.tintColor = .black
         resetButton.layer.cornerRadius = 10
+        
+        loadUi()
+        print(count, "viewdidload loadui 호출")
+        labelUiInitialize()
+        buttonUiInitialize()
     }
     
     
@@ -102,9 +80,11 @@ class SubViewController: UIViewController {
         case 0:
             count[sender.tag] += 1
             happyButtonLabel.text = "행복해 \(count[sender.tag])"
+//            print(count[sender.tag])
         case 1:
             count[sender.tag] += 1
             loveButtonLabel.text = "사랑해 \(count[sender.tag])"
+//            print(count[sender.tag])
         case 2:
             count[sender.tag] += 1
             likeButtonLabel.text =
@@ -133,17 +113,17 @@ class SubViewController: UIViewController {
             count[sender.tag] += 1
             sadButtonLabel.text =
             "슬퍼 \(count[sender.tag])"
-        
         default:
            return
         }
-        
+        print(count, "버튼 눌렀을때 count")
+        savedCount()
     }
     
     @IBAction func resetButtonTapped(_ sender: UIButton) {
         
         reset()
-
+       
     }
     // label 디자인
     func labelUiDesign(_ labelName: UILabel, _ emtion: String, _ number:Int) {
@@ -157,17 +137,55 @@ class SubViewController: UIViewController {
         button.contentMode = .scaleToFill
     }
     
+    func labelUiInitialize() {
+        labelUiDesign(happyButtonLabel, "행복해", count[0])
+        labelUiDesign(loveButtonLabel, "사랑해", count[1])
+        labelUiDesign(likeButtonLabel, "좋아해", count[2])
+        labelUiDesign(embarrassmentButtonLabel,  "당황해", count[3])
+        labelUiDesign(upSetButtonLabel, "속상해", count[4])
+        labelUiDesign(depressedButtonLabel, "우울해", count[5])
+        labelUiDesign(boredButtonLabel, "지루해", count[6])
+        labelUiDesign(tiredButtonLabel, "피곤해", count[7])
+        labelUiDesign(sadButtonLabel, "슬퍼", count[8])
+    }
+
+    func buttonUiInitialize() {
+        
+        buttonUiDesign(happyButton, "slime1")
+        buttonUiDesign(loveButton, "slime2")
+        buttonUiDesign(likeButton, "slime3")
+        buttonUiDesign(embarrassmentButton, "slime4")
+        buttonUiDesign(upSetButton, "slime5")
+        buttonUiDesign(depressedButton, "slime6")
+        buttonUiDesign(boredButton, "slime7")
+        buttonUiDesign(tiredButton, "slime8")
+        buttonUiDesign(sadButton, "slime9")
+        
+    }
+    
+    
     func reset() {
-        count = [0, 0, 0, 0, 0 ,0, 0, 0 ,0  ]
-        labelUiDesign(happyButtonLabel, "행복해", 0)
-        labelUiDesign(loveButtonLabel, "사랑해", 1)
-        labelUiDesign(likeButtonLabel, "좋아해", 2)
-        labelUiDesign(embarrassmentButtonLabel,  "당황해", 3)
-        labelUiDesign(upSetButtonLabel, "속상해", 4)
-        labelUiDesign(depressedButtonLabel, "우울해", 5)
-        labelUiDesign(boredButtonLabel, "지루해", 6)
-        labelUiDesign(tiredButtonLabel, "피곤해", 7)
-        labelUiDesign(sadButtonLabel, "슬퍼", 8)
+        count = [0, 0, 0, 0, 0 ,0, 0, 0 ,0 ]
+        savedCount()
+        labelUiInitialize()
+    }
+    
+    func savedCount() {
+        print(count, "저장됨 savedcount실행" )
+        UserDefaults.standard.set(count, forKey: "emotionCount")
+    }
+    
+    // any 타입은 런타임 시점에 타입이 결정
+    //as?는 타입 캐스팅을 시도하여 성공하면 해당 타입으로 변환하고 실패하면 nil을 반환
+    func loadUi() {
+        if let savedCounts = UserDefaults.standard.array(forKey: "emotionCount") as? [Int] {
+            count = savedCounts
+            print(count,"loadUI, UserDefault에서 가져온 count")
+        } else {
+            count = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }
+        print(count, "라벨이니셜직전 count")
+//        labelUiInitialize()
     }
     
     
