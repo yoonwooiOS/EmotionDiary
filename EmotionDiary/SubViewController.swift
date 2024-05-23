@@ -53,7 +53,7 @@ class SubViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+       
         //Button Style이 Plain일 경우 contentmode가 적용되지 않음
         backgroundImageView.image = UIImage(named: "background")
         backgroundImageView.contentMode = .scaleToFill
@@ -65,10 +65,16 @@ class SubViewController: UIViewController {
         resetButton.backgroundColor = .white
         resetButton.tintColor = .black
         resetButton.layer.cornerRadius = 10
-        
-        loadUi()
-        print(count, "viewdidload loadui 호출")
+       
         labelUiInitialize()
+
+        print(count, "loadUI호출 직전")
+       loadUi()
+//            guard let savedCounts = UserDefaults.standard.array(forKey: "emotionCount") as? [Int] else { return }
+//                count = savedCounts
+//        print(count, "Label 호출 직전")
+//        labelUiInitialize()
+        print(count, "viewdidload loadui 초기화 후")
         buttonUiInitialize()
     }
     
@@ -178,14 +184,12 @@ class SubViewController: UIViewController {
     // any 타입은 런타임 시점에 타입이 결정
     //as?는 타입 캐스팅을 시도하여 성공하면 해당 타입으로 변환하고 실패하면 nil을 반환
     func loadUi() {
-        if let savedCounts = UserDefaults.standard.array(forKey: "emotionCount") as? [Int] {
+        guard let savedCounts = UserDefaults.standard.array(forKey: "emotionCount") as? [Int] else { return }
             count = savedCounts
-            print(count,"loadUI, UserDefault에서 가져온 count")
-        } else {
-            count = [0, 0, 0, 0, 0, 0, 0, 0, 0]
-        }
-        print(count, "라벨이니셜직전 count")
-//        labelUiInitialize()
+       
+        print(count, "라벨 초기화직전 count")
+        labelUiInitialize()
+       
     }
     
     

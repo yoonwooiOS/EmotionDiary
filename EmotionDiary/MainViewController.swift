@@ -5,7 +5,8 @@
 //  Created by 김윤우 on 5/17/24.
 //
 // Button 이미지와 title, subtitle을 이용해서 구현 해보자
-
+// 시뮬레이터에서 UserDefaults 오류가 나서 UI가 이상하게 보임
+// 시뮬레이터이터 + 실기기로 꼭 확인하자
 import UIKit
 
 class MainViewController: UIViewController {
